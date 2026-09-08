@@ -6,7 +6,7 @@ from aiogram.filters import CommandStart
 from aiohttp import web
 from google import genai
 
-BOT_TOKEN = "6482109417:AAGdKMqojdNSFqXLYOWrjQe8VMwraYwbTP1JQ"
+BOT_TOKEN = "6482109417:AAGdKMqojdNSFqXLYOWjQeBVMwaYwbTP1JQ"
 GEMINI_API_KEY = "AQ.Ab8RN6Kq-x2X_GRtGKAoUgE19n_ca8aNImwJFiq_17TSA4uovA"
 
 bot = Bot(token=BOT_TOKEN)
