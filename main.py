@@ -7,7 +7,7 @@ from google import genai
 
 # Токени боти Telegram ва калиди тозаи Gemini
 BOT_TOKEN = "6482109417:AAGdKMqojdNSFqXLYOWjQeBVMwaYwbTP1JQ"
-GEMINI_API_KEY = "AQ.Ab8RN6Kq-x2X_GRtGKAoUgEi9n_ca8aNImwJFiq_17TSA4uovA"
+GEMINI_API_KEY = "AQ.Ab8RN6JNGj4fUwovqUkhgR09Rzg5BM6_jhH30Tucg1twEVa72Q"
 
 # Танзими Gemini API
 ai_client = genai.Client(api_key=GEMINI_API_KEY)
