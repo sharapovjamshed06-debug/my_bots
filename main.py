@@ -4,45 +4,45 @@ import os
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import CommandStart
 from aiohttp import web
+from google import genai
 
-# Токени боти худро дар байни нохунакҳо гузоред
-TOKEN = "6482109417:AAGdKMqojdNSFqXLYOWjQeBVMwaYwbTP1JQ"
+BOT_TOKEN = "6482109417:AAGdKMqojdNSFqXLYOWrjQe8VMwraYwbTP1JQ"
+GEMINI_API_KEY = "AQ.Ab8RN6Kq-x2X_GRtGKAoUgE19n_ca8aNImwJFiq_17TSA4uovA"
 
-bot = Bot(token=TOKEN)
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
-
+ai_client = genai.Client(api_key=GEMINI_API_KEY)
 
 @dp.message(CommandStart())
 async def start_handler(message: types.Message):
-    await message.answer(
-        f"Салом, {message.from_user.full_name}! Бот 24/7 фаъол аст."
-    )
-
+    await message.answer("Салом! Ман боти интеллектуалӣ бо Google Gemini ҳастам. Ба ман савол диҳед!")
 
 @dp.message()
-async def echo_handler(message: types.Message):
-    await message.answer(f"Шумо навиштед: {message.text}")
+async def ai_handler(message: types.Message):
+    try:
+        response = ai_client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=message.text,
+        )
+        await message.answer(response.text)
+    except Exception as e:
+        logging.error(f"Error: {e}")
+        await message.answer("Хатогӣ ҳангоми коркарди савол рӯй дод.")
 
-
-async def handle_health(request):
-    return web.Response(text="Bot is running!")
-
+async def handle(request):
+    return web.Response(text="Bot is running")
 
 async def main():
     logging.basicConfig(level=logging.INFO)
-
-    # Веб-сервери хурд барои он ки Render ботро хомӯш накунад
     app = web.Application()
-    app.router.add_get("/", handle_health)
+    app.router.add_get("/", handle)
     runner = web.AppRunner(app)
     await runner.setup()
-    port = int(os.environ.get("PORT", 8080))
+    port = int(os.environ.get("PORT", 10000))
     site = web.TCPSite(runner, "0.0.0.0", port)
     await site.start()
-
-    # Оғози коркарди паёмҳои бот
+    
     await dp.start_polling(bot)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
